@@ -122,3 +122,6 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
 ]
+
+[tool.setuptools.package-data]
+mcp_xray = ["*.yaml", "*.json"]
