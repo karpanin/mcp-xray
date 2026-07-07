@@ -127,5 +127,4 @@ exclude_lines = [
 packages = ["src/mcp_xray"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"config.yaml" = "mcp_xray/config.yaml"
 "xray_v2.0.json" = "mcp_xray/xray_v2.0.json"
