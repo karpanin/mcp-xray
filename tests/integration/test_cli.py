@@ -1,6 +1,7 @@
 """Integration tests for mcp_xray CLI (__main__.py)."""
 
 import json
+import os
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -230,6 +231,9 @@ class TestCLIExecution:
 
             # Verify env vars were set before create_mcp was called
             mock_create_mcp.assert_called_once()
+            assert os.environ["XRAY_OPENAPI_SPEC"] == str(openapi_spec_file)
+            assert os.environ["XRAY_URL"] == "https://test.example.com"
+            assert os.environ["XRAY_PERSONAL_TOKEN"] == "cli-test-token"
 
     def test_cli_starts_with_stdio_transport(
         self, runner: CliRunner, openapi_spec_file: Path, clear_settings_cache

@@ -1,7 +1,10 @@
+from importlib import resources
 from pathlib import Path
 from typing import Protocol
 
 import httpx
+
+PACKAGE_NAME = "mcp_xray"
 
 
 class ContentFetcher(Protocol):
@@ -18,8 +21,16 @@ class FileContentFetcher:
     def fetch(self, location: str) -> str:
         path = Path(location)
         if not path.is_file():
-            msg = f"File does not exist: {location}"
-            raise FileNotFoundError(msg)
+            if path.is_absolute() or ".." in path.parts:
+                msg = f"File does not exist: {location}"
+                raise FileNotFoundError(msg)
+
+            resource = resources.files(PACKAGE_NAME).joinpath(*path.parts)
+            if not resource.is_file():
+                msg = f"File does not exist: {location}"
+                raise FileNotFoundError(msg)
+            return resource.read_text(encoding="utf-8")
+
         return path.read_text(encoding="utf-8")
 
 

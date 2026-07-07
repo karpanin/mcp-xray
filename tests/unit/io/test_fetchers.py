@@ -40,6 +40,15 @@ class TestFileContentFetcher:
 
         assert "File does not exist" in str(exc_info.value)
 
+    def test_fetch_relative_package_resource(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+        """Test fetching a bundled package resource when cwd has no matching file."""
+        monkeypatch.chdir(tmp_path)
+
+        fetcher = FileContentFetcher()
+        content = fetcher.fetch("config.yaml")
+
+        assert "mcp_names" in content
+
     def test_fetch_directory_raises_error(self, tmp_path: Path):
         """Test fetching a directory raises FileNotFoundError."""
         fetcher = FileContentFetcher()

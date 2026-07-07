@@ -58,7 +58,7 @@ from mcp_xray.server import create_mcp
 )
 @click.option(
     "--config-file",
-    type=click.Path(exists=True, dir_okay=False, readable=True),
+    type=click.Path(exists=False, dir_okay=False),
     help="Path to the configuration file (YAML/JSON)",
 )
 @click.option(
@@ -136,7 +136,7 @@ def main(
     )
 
     # Set env vars
-    if click_ctx and was_option_provided(click_ctx, "openapi_spec"):
+    if click_ctx and was_option_provided(click_ctx, "xray_openapi_spec"):
         os.environ["XRAY_OPENAPI_SPEC"] = xray_openapi_spec
     if click_ctx and was_option_provided(click_ctx, "xray_url"):
         os.environ["XRAY_URL"] = xray_url
